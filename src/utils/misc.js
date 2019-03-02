@@ -1,6 +1,7 @@
 /* eslint max-len: 0, no-param-reassign: 0 */
 import React from "react";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
+import parse from "date-fns/parse";
 var ruLocale = require("date-fns/locale/ru");
 
 export function createConstants(...constants) {
@@ -60,7 +61,8 @@ export function dateInWordsToNow(date) {
   return date == null
     ? null
     : distanceInWordsToNow(
-        convertUTCTimeToLocalTime(date)
+        parse(date)
+        // convertUTCTimeToLocalTime(date)
         // {
         //     locale: ruLocale
         //   }
