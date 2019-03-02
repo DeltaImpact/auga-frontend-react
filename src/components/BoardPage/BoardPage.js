@@ -6,7 +6,8 @@ import {
   dataActions,
   boardActions,
   pinActions,
-  chatActions
+  hubActions,
+  profileActions
 } from "../../actions";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 import { Card } from "../Card";
@@ -69,6 +70,7 @@ class BoardPage extends React.Component {
         key={item.id}
         className="collection-item avatar pin-content board__card"
       >
+        <i className="material-icons circle green">person</i>
         <div className="board__card__content col m12">
           <div>
             <div className="title ">{item.username}</div>
@@ -76,8 +78,8 @@ class BoardPage extends React.Component {
             {/* <p className="title ">{item.created}</p> */}
           </div>
           <span className="board__misc__item--time">
-            {`Last change `}
-            {distanceInWordsToNow(date)}
+            {`Joined `}
+            {dateInWordsToNow(date)}
           </span>
 
           {/* {JSON.stringify(item)} */}
@@ -87,10 +89,13 @@ class BoardPage extends React.Component {
   }
 
   isInGame() {
-    this.props.chat.game.find(function(element, index, array) {
-      debugger;
+    let findInPlayers = this.props.chat.game.find(k => {
+      if (this.props.account.user) {
+        let userId = this.props.account.user.id;
+        if (userId == k.userId) return k.id;
+      }
     });
-    // debugger;
+    return findInPlayers;
   }
 
   render() {
@@ -134,7 +139,14 @@ class BoardPage extends React.Component {
           <div className="row">
             <div className="col l8 offset-l2 m8 l9 legacy-content">
               <div className="title left-align">
-                <h4 className="left-align players__list__item">Players </h4>
+                <h4 className="left-align players__list__item">
+                  Players{" "}
+                  {this.props.pin.pin &&
+                    this.props.chat.game &&
+                    this.props.chat.game.length +
+                      " / " +
+                      this.props.pin.pin.numberOfParticipants}
+                </h4>
                 {!this.props.chat.GetGameLoading && (
                   <i
                     className="material-icons board__card__button"
@@ -176,7 +188,9 @@ class BoardPage extends React.Component {
                 {/* {JSON.stringify(this.props.chat.game)} */}
                 {/* {this.props.board.getBoard && this.renderPins()} */}
               </ul>
-              {!this.props.chat.gameError && !this.props.chat.GetGameLoading && (
+              {
+                // !this.props.chat.gameError && 
+                !this.props.chat.GetGameLoading && (
                 <a
                   onClick={e => {
                     e.preventDefault;
@@ -185,14 +199,22 @@ class BoardPage extends React.Component {
                   }}
                   className="waves-effect waves-light btn-small"
                 >
-                  Leave
+                  Join
                 </a>
               )}
-
-              {!this.props.chat.gameError &&
+              {/* {!this.props.chat.gameError &&
+              !this.props.chat.GetGameLoading &&
+              this.props.chat.game &&
+              this.isInGame()
+                ? "asd"
+                : "sda"} */}
+              {
+                // !this.props.chat.gameError &&
                 !this.props.chat.GetGameLoading &&
                 this.props.chat.game &&
-                this.isInGame() && (
+                // this.props.account &&
+                // this.props.account.user &&
+                (this.isInGame() && (
                   <a
                     onClick={e => {
                       e.preventDefault;
@@ -201,9 +223,9 @@ class BoardPage extends React.Component {
                     }}
                     className="waves-effect waves-light btn-small"
                   >
-                    Join
+                    Leave
                   </a>
-                )}
+                ))}
             </div>
           </div>
         </div>
@@ -213,17 +235,24 @@ class BoardPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { board, pin, chat } = state;
+  const { board, pin, chat, account } = state;
   return {
     board,
     pin,
-    chat
+    chat,
+    account
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { ...dataActions, ...boardActions, ...pinActions, ...chatActions },
+    {
+      ...dataActions,
+      ...boardActions,
+      ...pinActions,
+      ...hubActions,
+      ...profileActions
+    },
     dispatch
   );
 }
