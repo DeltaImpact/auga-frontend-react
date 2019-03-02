@@ -1,8 +1,8 @@
 <img src="project-logo.png" align="right" />
 
-# linkpins-frontend
+# auga-frontend
 
-This is React based front-end for [linkpins-backend](https://github.com/DeltaImpact/linkpins-backend) made in learning React purposes.
+This is React based front-end for [Auga-back-end-Net-Core-2](https://github.com/DeltaImpact/Auga-back-end-Net-Core-2).
 
 ## Getting started
 
@@ -12,5 +12,5 @@ This is React based front-end for [linkpins-backend](https://github.com/DeltaImp
 
 ### Prerequisites
 
-This project require [linkpins-backend](https://github.com/DeltaImpact/linkpins-backend) as the backend.
+This project require [Auga-back-end-Net-Core-2](https://github.com/DeltaImpact/Auga-back-end-Net-Core-2) as the backend.
 
