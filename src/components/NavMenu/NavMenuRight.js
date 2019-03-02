@@ -23,7 +23,7 @@ class NavMenuRight extends Component {
       topbarRight = (
         <div>
           <ul className="right hide-on-med-and-down">
-            <li
+            {/* <li
               className={
                 this.props.history.location.pathname == "/parse" ? "active" : ""
               }
@@ -31,7 +31,7 @@ class NavMenuRight extends Component {
               <Link className="black-text" to={"/parse"}>
                 parse
               </Link>
-            </li>
+            </li> */}
             <li
               className={
                 this.props.history.location.pathname.startsWith("/profile")
@@ -47,7 +47,7 @@ class NavMenuRight extends Component {
                 {user.username}
               </Link>
             </li>
-            <li
+            {/* <li
               className={
                 this.props.history.location.pathname == "/messages"
                   ? "active"
@@ -60,8 +60,8 @@ class NavMenuRight extends Component {
               >
                 <i className="large material-icons">message</i>
               </Link>
-            </li>
-            <li
+            </li> */}
+            {/* <li
               className={
                 this.props.history.location.pathname == "/settings"
                   ? "active"
@@ -74,7 +74,7 @@ class NavMenuRight extends Component {
               >
                 <i className="large material-icons">settings</i>
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link to="" className="black-text" onClick={this.handleLogout}>
                 logout
