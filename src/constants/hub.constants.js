@@ -1,4 +1,4 @@
-export const chatConstants = {
+export const hubConstants = {
   GET_DIALOGS_REQUEST: "GET_DIALOGS_REQUEST",
   GET_DIALOGS_SUCCESS: "GET_DIALOGS_SUCCESS",
   GET_DIALOGS_FAILURE: "GET_DIALOGS_FAILURE",

@@ -2,7 +2,7 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { profileActions } from "../../actions";
-import { chatActions } from "../../actions";
+import { hubActions } from "../../actions";
 import "./../../static/styles/ProfilePage.css";
 import { UserFields } from "./UserFields";
 import { ChangePasswordForm } from "./ChangePasswordForm";
@@ -135,7 +135,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(chatActions, dispatch);
+  return bindActionCreators(hubActions, dispatch);
 }
 
 const connectedDialogsPage = connect(

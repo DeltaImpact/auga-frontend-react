@@ -20,7 +20,7 @@ import {
   GET_GAME_REQUEST,
   GET_GAME_SUCCESS,
   GET_GAME_FAILURE
-} from "../constants/chat.constants";
+} from "../constants/hub.constants";
 
 const reducerInitialState = {
   GetDialogs: null,

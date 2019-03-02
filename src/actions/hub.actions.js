@@ -1,8 +1,8 @@
-import { chatConstants } from "../constants";
+import { hubConstants } from "../constants";
 import { chatService } from "../services";
 import { history } from "../helpers";
 
-export const chatActions = {
+export const hubActions = {
   getDialogs,
   getDialog,
   sendMessage,
@@ -29,20 +29,20 @@ function getGame(id) {
 
 export function getGameRequest() {
   return {
-    type: chatConstants.GET_GAME_REQUEST
+    type: hubConstants.GET_GAME_REQUEST
   };
 }
 
 export function getGameSuccess(payload) {
   return {
-    type: chatConstants.GET_GAME_SUCCESS,
+    type: hubConstants.GET_GAME_SUCCESS,
     payload
   };
 }
 
 export function getGameFailure(error) {
   return {
-    type: chatConstants.GET_GAME_FAILURE,
+    type: hubConstants.GET_GAME_FAILURE,
     payload: error
   };
 }
@@ -63,20 +63,20 @@ function leaveGame(id) {
 
 export function leaveGameRequest() {
   return {
-    type: chatConstants.LEAVE_GAME_REQUEST
+    type: hubConstants.LEAVE_GAME_REQUEST
   };
 }
 
 export function leaveGameSuccess(payload) {
   return {
-    type: chatConstants.LEAVE_GAME_SUCCESS,
+    type: hubConstants.LEAVE_GAME_SUCCESS,
     payload
   };
 }
 
 export function leaveGameFailure(error) {
   return {
-    type: chatConstants.LEAVE_GAME_FAILURE,
+    type: hubConstants.LEAVE_GAME_FAILURE,
     payload: error
   };
 }
@@ -97,20 +97,20 @@ function joinGame(id) {
 
 export function joinGameRequest() {
   return {
-    type: chatConstants.JOIN_GAME_REQUEST_SUCCESS
+    type: hubConstants.JOIN_GAME_REQUEST_SUCCESS
   };
 }
 
 export function joinGameSuccess(payload) {
   return {
-    type: chatConstants.JOIN_GAME_SUCCESS,
+    type: hubConstants.JOIN_GAME_SUCCESS,
     payload
   };
 }
 
 export function joinGameFailure(error) {
   return {
-    type: chatConstants.JOIN_GAME_FAILURE,
+    type: hubConstants.JOIN_GAME_FAILURE,
     payload: error
   };
 }
@@ -131,20 +131,20 @@ function getDialogs() {
 
 export function getDialogsRequest() {
   return {
-    type: chatConstants.GET_DIALOGS_REQUEST
+    type: hubConstants.GET_DIALOGS_REQUEST
   };
 }
 
 export function getDialogsSuccess(payload) {
   return {
-    type: chatConstants.GET_DIALOGS_SUCCESS,
+    type: hubConstants.GET_DIALOGS_SUCCESS,
     payload
   };
 }
 
 export function getDialogsFailure(error) {
   return {
-    type: chatConstants.GET_DIALOGS_FAILURE,
+    type: hubConstants.GET_DIALOGS_FAILURE,
     payload: error
   };
 }
@@ -165,20 +165,20 @@ function getDialog(id) {
 
 export function getDialogRequest() {
   return {
-    type: chatConstants.GET_DIALOG_REQUEST
+    type: hubConstants.GET_DIALOG_REQUEST
   };
 }
 
 export function getDialogSuccess(payload) {
   return {
-    type: chatConstants.GET_DIALOG_SUCCESS,
+    type: hubConstants.GET_DIALOG_SUCCESS,
     payload
   };
 }
 
 export function getDialogFailure(error) {
   return {
-    type: chatConstants.GET_DIALOG_FAILURE,
+    type: hubConstants.GET_DIALOG_FAILURE,
     payload: error
   };
 }
@@ -203,21 +203,21 @@ function sendMessage(message, sentTo) {
 
 export function sendMessageRequest(payload) {
   return {
-    type: chatConstants.ADD_ITEM_REQUEST,
+    type: hubConstants.ADD_ITEM_REQUEST,
     payload
   };
 }
 
 export function sendMessageSuccess(payload) {
   return {
-    type: chatConstants.ADD_ITEM_SUCCESS,
+    type: hubConstants.ADD_ITEM_SUCCESS,
     payload
   };
 }
 
 export function sendMessageFailure(error) {
   return {
-    type: chatConstants.ADD_ITEM_FAILURE,
+    type: hubConstants.ADD_ITEM_FAILURE,
     payload: error
   };
 }
@@ -238,20 +238,20 @@ function StartTypingTo(id) {
 
 export function StartTypingToRequest() {
   return {
-    type: chatConstants.START_TYPING_TO
+    type: hubConstants.START_TYPING_TO
   };
 }
 
 export function StartTypingToSuccess(payload) {
   return {
-    type: chatConstants.GET_DIALOG_SUCCESS,
+    type: hubConstants.GET_DIALOG_SUCCESS,
     payload
   };
 }
 
 export function StartTypingToFailure(error) {
   return {
-    type: chatConstants.GET_DIALOG_FAILURE,
+    type: hubConstants.GET_DIALOG_FAILURE,
     payload: error
   };
 }
@@ -272,20 +272,20 @@ function StopTypingTo(id) {
 
 export function StopTypingToRequest() {
   return {
-    type: chatConstants.STOP_TYPING_TO
+    type: hubConstants.STOP_TYPING_TO
   };
 }
 
 export function StopTypingToSuccess(payload) {
   return {
-    type: chatConstants.GET_DIALOG_SUCCESS,
+    type: hubConstants.GET_DIALOG_SUCCESS,
     payload
   };
 }
 
 export function StopTypingToFailure(error) {
   return {
-    type: chatConstants.GET_DIALOG_FAILURE,
+    type: hubConstants.GET_DIALOG_FAILURE,
     payload: error
   };
 }
