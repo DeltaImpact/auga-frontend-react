@@ -80,8 +80,8 @@ export default createReducer(reducerInitialState, {
     }),
   LEAVE_GAME_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      LeaveGameLoading: false
-      // game: null
+      LeaveGameLoading: false,
+      game: state.game.filter(t => t.UserId != payload.UserId)
     }),
   LEAVE_GAME_FAILURE: (state, payload) =>
     Object.assign({}, state, {
