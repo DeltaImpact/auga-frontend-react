@@ -26,7 +26,8 @@ function login(email) {
           let user = {
             username: response.userName,
             email: response.email,
-            token: response.token
+            token: response.token,
+            id: response.id
           };
           localStorage.setItem("user", JSON.stringify(user));
           // signalRRegistration.
@@ -56,7 +57,8 @@ function register(email, username) {
           let user = {
             username: response.userName,
             email: response.email,
-            token: response.token
+            token: response.token,
+            id: response.id
           };
           localStorage.setItem("user", JSON.stringify(user));
           // debugger;
