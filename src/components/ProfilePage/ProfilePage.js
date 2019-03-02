@@ -2,7 +2,7 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { profileActions } from "../../actions";
-import { boardActions } from "../../actions";
+import { boardActions, pinActions } from "../../actions";
 import "./../../static/styles/ProfilePage.css";
 import { UserFields } from "./UserFields";
 import { ChangePasswordForm } from "./ChangePasswordForm";
@@ -22,13 +22,27 @@ class ProfilePage extends React.Component {
     if (this.props.match.params.nickname != null) {
       let profileNickname = this.props.match.params.nickname;
       this.props.dataAboutUser(profileNickname);
-      // debugger
+      // debugger;
       // this.props.getBoards(profileNickname);
       // this.props.getBoard(boardId);
     }
   }
 
+  // componentDidUpdate(prevProps) {
+  //   if (
+  //     this.props.account.profileGetObject !== prevProps.account.profileGetObject
+  //   ) {
+  //     // debugger;
+  //     if (this.props.account.profileGetObject == null) {
+  //       this.props.getUserItems(this.props.account.profileGetObject.id);
+  //     }
+
+  //     // this.fetchData(this.props.userID);
+  //   }
+  // }
+
   renderProfile(user) {
+    // debugger;
     // let asd = this.props.UserId;
     // let asd1 = this.props.account.profileGetObject;
     // debugger
@@ -65,9 +79,13 @@ class ProfilePage extends React.Component {
             </div>
           </div>
         </div>
-        {this.props.match.params.nickname && (
-          <BoardsContainer UserNickname={this.props.match.params.nickname} />
-        )}
+        {this.props.match.params.nickname &&
+          this.props.account.profileGetObject && (
+            <BoardsContainer
+              UserId={this.props.account.profileGetObject.id}
+              // UserNickname={this.props.match.params.nickname}
+            />
+          )}
       </div>
     );
   }
@@ -83,7 +101,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...profileActions, ...boardActions }, dispatch);
+  return bindActionCreators(
+    { ...profileActions, ...boardActions, ...pinActions },
+    dispatch
+  );
 }
 
 const connectedProfilePage = connect(

@@ -6,8 +6,15 @@ import { history } from "../helpers";
 export const profileActions = {
   dataAboutUser,
   changePassword,
-  editProfile
+  editProfile,
+  getSavedAuth
 };
+
+function getSavedAuth() {
+  return {
+    type: userConstants.GET_SAVED_AUTH
+  };
+}
 
 function dataAboutUser(nickname) {
   // debugger

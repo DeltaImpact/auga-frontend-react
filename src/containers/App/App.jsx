@@ -1,85 +1,78 @@
-import React from 'react';
-import { Router, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from "react";
+import { Router, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { history } from '../../helpers';
-import { alertActions } from '../../actions';
-import { PrivateRoute } from '../../components/PrivateRoute';
-import { SettingsPage } from '../../components/SettingsPage';
-import { DialogsPage } from '../../components/DialogsPage';
-import { ProfilePage } from '../../components/ProfilePage';
-import { BoardPage } from '../../components/BoardPage';
-import { PinPage } from '../../components/PinPage';
-import { ParseView } from '../../components/ParseView';
+import { history } from "../../helpers";
+import { alertActions } from "../../actions";
+import { PrivateRoute } from "../../components/PrivateRoute";
+import { SettingsPage } from "../../components/SettingsPage";
+import { DialogsPage } from "../../components/DialogsPage";
+import { ProfilePage } from "../../components/ProfilePage";
+import { BoardPage as ItemPage } from "../../components/BoardPage";
+import { PinPage } from "../../components/PinPage";
+import { ParseView } from "../../components/ParseView";
+import { bindActionCreators } from "redux";
 
-import { Layout } from '../../components/Layout';
-import { BoardsContainer } from '../../components/BoardsContainer';
-import { MainPage } from '../../components/MainPage';
-import { RegisterView } from '../../components/RegisterView';
-import { LoginView } from '../../components/LoginView';
+import { Layout } from "../../components/Layout";
+import { MainPage } from "../../components/MainPage";
+import { RegisterView } from "../../components/RegisterView";
+import { LoginView } from "../../components/LoginView";
 
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { profileActions } from "../../actions";
 
-import '../../static/styles/app.css';
+import "../../static/styles/app.css";
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        const { dispatch } = this.props;
-    }
+    const { dispatch } = this.props;
+  }
 
-    render() {
-        // const muiTheme = createMuiTheme({
-        //     // palette: {
-        //     //     primary1Color: '#21c14c',
-        //     //     primary2Color: '#21c14c',
-        //     //     primary3Color: '#21c14c',
-        //     //     primary: {
-        //     //         main: '#f4f4f6',
-        //     //     },
-        //     //     secondary: {
-        //     //         main: '#f4f4f6',
-        //     //     },
-        //     // },
-        // });
+  componentDidMount() {
+    this.props.getSavedAuth();
+  }
 
-        const { alert } = this.props;
-        return (
-            <div>
-                {alert.message &&
-                    <div className={`alert ${alert.type}`}>{alert.message}</div>
-                }
-                <Router history={history}>
-                    <div>
-                        {/* <MuiThemeProvider theme={muiTheme}> */}
-                            <Layout>
-                                <PrivateRoute exact path="/" component={MainPage} />
-                                <PrivateRoute path="/parse" component={ParseView} />
-                                <PrivateRoute path="/settings" component={SettingsPage} />
-                                <PrivateRoute path="/messages" component={DialogsPage} />
-                                <Route path="/login" component={LoginView} />
-                                <Route path="/register" component={RegisterView} />
-                                <Route path="/profile/:nickname" component={ProfilePage} />
-                                <Route path="/board/:id" component={BoardPage} />
-                                <Route path="/pin/:id" component={PinPage} />
-                                {/* <Route component={MainPage} /> */}
-                            </Layout>
-                        {/* </MuiThemeProvider> */}
-                    </div>
-                </Router>
-            </div>
-        );
-    }
+  render() {
+    const { alert } = this.props;
+    return (
+      <div>
+        {alert.message && (
+          <div className={`alert ${alert.type}`}>{alert.message}</div>
+        )}
+        <Router history={history}>
+          <div>
+            <Layout>
+              <PrivateRoute exact path="/" component={MainPage} />
+              <PrivateRoute path="/parse" component={ParseView} />
+              <PrivateRoute path="/settings" component={SettingsPage} />
+              <PrivateRoute path="/messages" component={DialogsPage} />
+              <Route path="/login" component={LoginView} />
+              <Route path="/register" component={RegisterView} />
+              <Route path="/profile/:nickname" component={ProfilePage} />
+              <Route path="/item/:id" component={ItemPage} />
+              <Route path="/pin/:id" component={PinPage} />
+            </Layout>
+          </div>
+        </Router>
+      </div>
+    );
+  }
 }
 
 function mapStateToProps(state) {
-    const { alert } = state;
-    return {
-        alert
-    };
+  const { alert } = state;
+  return {
+    alert
+  };
 }
 
-const connectedApp = connect(mapStateToProps)(App);
-export { connectedApp as App }; 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ ...profileActions }, dispatch);
+}
+
+const connectedApp = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+export { connectedApp as App };

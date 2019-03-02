@@ -7,8 +7,113 @@ export const chatActions = {
   getDialog,
   sendMessage,
   StartTypingTo,
-  StopTypingTo
+  StopTypingTo,
+  joinGame,
+  leaveGame,
+  getGame
 };
+
+function getGame(id) {
+  return function(dispatch) {
+    dispatch(getGameRequest());
+    return chatService.getGame(id).then(
+      response => {
+        dispatch(getGameSuccess(response));
+      },
+      error => {
+        dispatch(getGameFailure(error));
+      }
+    );
+  };
+}
+
+export function getGameRequest() {
+  return {
+    type: chatConstants.GET_GAME_REQUEST
+  };
+}
+
+export function getGameSuccess(payload) {
+  return {
+    type: chatConstants.GET_GAME_SUCCESS,
+    payload
+  };
+}
+
+export function getGameFailure(error) {
+  return {
+    type: chatConstants.GET_GAME_FAILURE,
+    payload: error
+  };
+}
+
+function leaveGame(id) {
+  return function(dispatch) {
+    dispatch(leaveGameRequest());
+    return chatService.leaveGame(id).then(
+      response => {
+        dispatch(leaveGameSuccess(response));
+      },
+      error => {
+        dispatch(leaveGameFailure(error));
+      }
+    );
+  };
+}
+
+export function leaveGameRequest() {
+  return {
+    type: chatConstants.LEAVE_GAME_REQUEST
+  };
+}
+
+export function leaveGameSuccess(payload) {
+  return {
+    type: chatConstants.LEAVE_GAME_SUCCESS,
+    payload
+  };
+}
+
+export function leaveGameFailure(error) {
+  return {
+    type: chatConstants.LEAVE_GAME_FAILURE,
+    payload: error
+  };
+}
+
+function joinGame(id) {
+  return function(dispatch) {
+    dispatch(joinGameRequest());
+    return chatService.joinGame(id).then(
+      response => {
+        dispatch(joinGameSuccess(response));
+      },
+      error => {
+        dispatch(joinGameFailure(error));
+      }
+    );
+  };
+}
+
+export function joinGameRequest() {
+  return {
+    type: chatConstants.JOIN_GAME_REQUEST_SUCCESS
+  };
+}
+
+export function joinGameSuccess(payload) {
+  return {
+    type: chatConstants.JOIN_GAME_SUCCESS,
+    payload
+  };
+}
+
+export function joinGameFailure(error) {
+  return {
+    type: chatConstants.JOIN_GAME_FAILURE,
+    payload: error
+  };
+}
 
 function getDialogs() {
   return function(dispatch) {
@@ -98,30 +203,24 @@ function sendMessage(message, sentTo) {
 
 export function sendMessageRequest(payload) {
   return {
-    type: chatConstants.ADD_PIN_REQUEST,
+    type: chatConstants.ADD_ITEM_REQUEST,
     payload
   };
 }
 
 export function sendMessageSuccess(payload) {
   return {
-    type: chatConstants.ADD_PIN_SUCCESS,
+    type: chatConstants.ADD_ITEM_SUCCESS,
     payload
   };
 }
 
 export function sendMessageFailure(error) {
   return {
-    type: chatConstants.ADD_PIN_FAILURE,
+    type: chatConstants.ADD_ITEM_FAILURE,
     payload: error
   };
 }
-
-
-
-
-
-
 
 function StartTypingTo(id) {
   return function(dispatch) {

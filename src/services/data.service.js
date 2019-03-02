@@ -9,7 +9,7 @@ export const dataService = {
 
 function parsing(url) {
   return axios
-    .post(`${config.apiUrl}/parse`, {
+    .post(`${config.apiItemsUrl}/parse`, {
       url: url
     })
     .then(parseJSON)

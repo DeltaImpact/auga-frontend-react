@@ -7,7 +7,6 @@ import { Card } from "../Card/Card";
 import { dateInWordsToNow, renderError } from "../../utils/misc";
 import { userNickname } from "../../helpers/auth-header";
 
-
 class BoardsContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -23,61 +22,52 @@ class BoardsContainer extends React.Component {
   }
 
   componentWillMount() {
+    if (this.props.UserId) this.props.getUserItems(this.props.UserId);
     // debugger
-    this.props.getMainPage();
-    this.props.getBoards(this.props.UserNickname);
+    // this.props.getItems();
+    // this.props.getBoards(this.props.UserNickname);
   }
 
   renderPublicBoards() {
-    return this.props.board.boards
-      .map((board, i) => {
-        if (board.isPrivate == false) return this.renderBoard(board);
+    return this.props.pin.getUserItems
+      .map((item, i) => {
+        return this.renderBoard(item);
       })
       .filter(n => n);
-  }
-
-  renderPrivateBoards() {
-    let array = this.props.board.boards
-      .map((board, i) => {
-        if (board.isPrivate == true) return this.renderBoard(board);
-      })
-      .filter(n => n);
-
-    if (array.length) {
-      return (
-        <div className="col m8 offset-m2">
-          <h4 className="left-align">Private boards</h4>
-          <ul className="collection">{array}</ul>
-        </div>
-      );
-    } else return null;
   }
 
   renderBoard(board) {
+    // debugger;
     return (
       <Card
         key={board.id}
         item={board}
-        updateBoard={this.props.updateBoard}
-        deleteBoard={this.props.deleteBoard}
-        loading={this.props.board.updateBoardLoading}
-        error={this.props.board.updateBoardError}
+        updateItem={this.props.updateItem}
+        deleteItem={this.props.deleteItem}
+        loading={this.props.board.updateItemLoading}
+        error={this.props.board.updateItemError}
         objectWithErrorId={this.props.board.updateBoardId}
-        typeOfElement="board"
+        typeOfElement="item"
       />
     );
   }
 
   renderCreateNewBoardForm() {
-    if (this.props.UserNickname == userNickname() || this.props.UserNickname == undefined)
-    return (
-      <Card
-        addBoard={this.props.addBoard}
-        loading={this.props.board.AddBoardLoading}
-        error={this.props.board.AddBoardError}
-        typeOfElement="AddBoard"
-      />
-    );
+    if (
+      this.props.UserNickname == userNickname() ||
+      this.props.UserNickname == undefined
+    )
+      // debugger
+      return (
+        <Card
+          addItem={this.props.addItem}
+          // loading={this.props.board.AddBoardLoading}
+          // error={this.props.board.AddBoardError}
+          loading={this.props.pin.addItemLoading}
+          error={this.props.pin.addItemError}
+          typeOfElement="addItem"
+        />
+      );
   }
 
   renderCreateNewBoardFormPreview() {
@@ -254,25 +244,26 @@ class BoardsContainer extends React.Component {
   }
 
   render() {
+    // debugger;
     return (
       <div className="container">
         <div className="row">
           <div className="col m8 offset-m2">
-            <h4 className="left-align">Boards</h4>
-            {this.props.board.getAllBoardsLoading && (
+            <h4 className="left-align">User items</h4>
+            {this.props.pin.getAllPinsLoading && (
               <div className="progress">
                 <div className="indeterminate" />
               </div>
             )}
-            {this.props.board.getAllBoardsError && renderError(this.props.board.getAllBoardsError)}
+
+            {this.props.pin.getAllPinsError &&
+              renderError(this.props.pin.getAllPinsError)}
 
             <ul className="collection">
-              {/* {this.props.UserNickname == userNickname() && this.renderCreateNewBoardForm()} */}
               {this.renderCreateNewBoardForm()}
-              {this.props.board.boards && this.renderPublicBoards()}
+              {this.props.pin.getUserItems && this.renderPublicBoards()}
             </ul>
           </div>
-          {this.props.board.boards && this.renderPrivateBoards()}
         </div>
       </div>
     );
@@ -282,7 +273,8 @@ class BoardsContainer extends React.Component {
 function mapStateToProps(state) {
   const { board, pin } = state;
   return {
-    board, pin
+    board,
+    pin
   };
 }
 

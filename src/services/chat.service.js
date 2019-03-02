@@ -9,13 +9,70 @@ export const chatService = {
   getDialog,
   sendMessage,
   StartTypingTo,
-  StopTypingTo
+  StopTypingTo,
+  joinGame,
+  leaveGame,
+  getGame
 };
+
+function getGame(id) {
+  axios.defaults.headers.common["Authorization"] = authHeader();
+  return axios
+    .get(
+      // `${config.apiMatchmakingUrl}/games/game?Id=${id}`,
+      `${config.apiMatchmakingUrl}/games`,
+      { params: { Id: id } }
+      // {
+      //   headers: { Authorization: authHeader() }
+      // }
+    )
+    .then(parseJSON)
+    .then(
+      game => {
+        return game;
+      },
+      error => {
+        return Promise.reject(processErrorResponse(error));
+      }
+    );
+}
+
+function joinGame(id) {
+  return axios
+    .post(`${config.apiMatchmakingUrl}/games/${id}/join`, {
+      headers: { Authorization: authHeader() }
+    })
+    .then(parseJSON)
+    .then(
+      game => {
+        return game;
+      },
+      error => {
+        return Promise.reject(processErrorResponse(error));
+      }
+    );
+}
+
+function leaveGame(id) {
+  return axios
+    .post(`${config.apiMatchmakingUrl}/games/${id}/leave`, {
+      headers: { Authorization: authHeader() }
+    })
+    .then(parseJSON)
+    .then(
+      game => {
+        return game;
+      },
+      error => {
+        return Promise.reject(processErrorResponse(error));
+      }
+    );
+}
 
 function getDialogs() {
   return axios
     .post(
-      `${config.apiUrl}/chat/getDialog`,
+      `${config.apiMatchmakingUrl}/games/getDialog`,
       {},
       {
         headers: { Authorization: authHeader() }
@@ -34,9 +91,14 @@ function getDialogs() {
 
 function getDialog(interlocutorId) {
   return axios
-    .get(`${config.apiUrl}/chat/getDialog?interlocutorId=${interlocutorId}`, {
-      headers: { Authorization: authHeader() }
-    })
+    .get(
+      `${
+        config.apiMatchmakingUrl
+      }/games/getDialog?interlocutorId=${interlocutorId}`,
+      {
+        headers: { Authorization: authHeader() }
+      }
+    )
     .then(parseJSON)
     .then(
       dialog => {
@@ -51,7 +113,7 @@ function getDialog(interlocutorId) {
 function sendMessage(Message, SentTo) {
   return axios
     .post(
-      `${config.apiUrl}/chat/SendMessage`,
+      `${config.apiMatchmakingUrl}/games/SendMessage`,
       {
         Message: Message,
         SentTo: SentTo
@@ -75,9 +137,14 @@ function sendMessage(Message, SentTo) {
 
 function StartTypingTo(interlocutorId) {
   return axios
-    .get(`${config.apiUrl}/chat/startTyping?interlocutorId=${interlocutorId}`, {
-      headers: { Authorization: authHeader() }
-    })
+    .get(
+      `${
+        config.apiMatchmakingUrl
+      }/games/startTyping?interlocutorId=${interlocutorId}`,
+      {
+        headers: { Authorization: authHeader() }
+      }
+    )
     .then(parseJSON)
     .then(
       response => {
@@ -91,9 +158,14 @@ function StartTypingTo(interlocutorId) {
 
 function StopTypingTo(interlocutorId) {
   return axios
-    .get(`${config.apiUrl}/chat/stopTyping?interlocutorId=${interlocutorId}`, {
-      headers: { Authorization: authHeader() }
-    })
+    .get(
+      `${
+        config.apiMatchmakingUrl
+      }/games/stopTyping?interlocutorId=${interlocutorId}`,
+      {
+        headers: { Authorization: authHeader() }
+      }
+    )
     .then(parseJSON)
     .then(
       response => {

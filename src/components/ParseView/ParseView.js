@@ -78,7 +78,7 @@ class ParseView extends React.Component {
     // this.state.previewBoardId = id;
     // this.state.previewBoardName = name;
     // debugger;
-    this.props.addPin(
+    this.props.addItem(
       this.state.previewTitle,
       this.state.previewDescription,
       this.state.previewImage,

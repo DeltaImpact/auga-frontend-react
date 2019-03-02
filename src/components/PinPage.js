@@ -18,14 +18,14 @@ class PinPage extends React.Component {
   componentWillMount() {
     if (this.props.match.params.id != null) {
       let pinId = this.props.match.params.id;
-      this.props.getPin(pinId);
+      this.props.getItem(pinId);
       this.props.getBoardsWherePinNotSaved(pinId);
       this.props.getBoardsWherePinSaved(pinId);
     }
   }
 
   renderBoards() {
-    return this.props.pin.GetPinBoards.map((board, i) => {
+    return this.props.pin.getItemBoards.map((board, i) => {
       return (
         <Card
           key={board.id}
@@ -36,7 +36,7 @@ class PinPage extends React.Component {
           error={this.props.board.updateBoardError}
           objectWithErrorId={this.props.board.updateBoardId}
           typeOfElement="board"
-          unpinAction={this.props.deletePinFromBoard}
+          unpinAction={this.props.deleteItemFromBoard}
           pinId={this.props.pin.pin.id}
         />
       );
@@ -44,7 +44,7 @@ class PinPage extends React.Component {
   }
 
   renderBoardsToSave() {
-    return this.props.pin.GetPinAvaliableBoards.map((board, i) => {
+    return this.props.pin.getItemAvaliableBoards.map((board, i) => {
       return (
         <Card
           key={board.id}
@@ -55,7 +55,7 @@ class PinPage extends React.Component {
           error={this.props.board.updateBoardError}
           objectWithErrorId={this.props.board.updateBoardId}
           typeOfElement="board"
-          pinAction={this.props.addPinToBoard}
+          pinAction={this.props.addItemToBoard}
           pinId={this.props.pin.pin.id}
         />
       );
@@ -68,21 +68,21 @@ class PinPage extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col l8 offset-l2 m8 l9 legacy-content">
-              {this.props.pin.getPinLoading && (
+              {this.props.pin.getItemLoading && (
                 <div className="progress">
                   <div className="indeterminate" />
                 </div>
               )}
-              {this.props.pin.GetPinBoardsError &&
-                renderError(this.props.pin.GetPinBoardsError)}
+              {this.props.pin.getItemBoardsError &&
+                renderError(this.props.pin.getItemBoardsError)}
               <ul className="collection">
                 {this.props.pin.pin && (
                   <Card
                     item={this.props.pin.pin}
-                    updatePin={this.props.updatePin}
-                    deletePin={this.props.deletePin}
-                    loading={this.props.pin.updatePinLoading}
-                    error={this.props.pin.updatePinError}
+                    updateItem={this.props.updateItem}
+                    deleteItem={this.props.deleteItem}
+                    loading={this.props.pin.updateItemLoading}
+                    error={this.props.pin.updateItemError}
                     typeOfElement="pin"
                     cardType="full"
                   />
@@ -106,14 +106,14 @@ class PinPage extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col l8 offset-l2 m8 l9 legacy-content">
-              {this.props.pin.DeletePinFromBoardError &&
-                renderError(this.props.pin.DeletePinFromBoardError)}
-              {this.props.pin.DeletePinFromBoardLoading && (
+              {this.props.pin.deleteItemFromBoardError &&
+                renderError(this.props.pin.deleteItemFromBoardError)}
+              {this.props.pin.deleteItemFromBoardLoading && (
                 <div className="progress">
                   <div className="indeterminate" />
                 </div>
               )}
-              {this.props.pin.pin && this.props.pin.GetPinBoards && (
+              {this.props.pin.pin && this.props.pin.getItemBoards && (
                 <div>
                   <h4 className="left-align">Saved to</h4>
                   <ul className="collection">{this.renderBoards()}</ul>
@@ -126,15 +126,15 @@ class PinPage extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col l8 offset-l2 m8 l9 legacy-content">
-              {this.props.pin.AddPinToBoardError &&
-                renderError(this.props.pin.AddPinToBoardError)}
-              {this.props.pin.DeletePinFromBoardLoading && (
+              {this.props.pin.addItemToBoardError &&
+                renderError(this.props.pin.addItemToBoardError)}
+              {this.props.pin.deleteItemFromBoardLoading && (
                 <div className="progress">
                   <div className="indeterminate" />
                 </div>
               )}
 
-              {this.props.pin.pin && this.props.pin.GetPinAvaliableBoards && (
+              {this.props.pin.pin && this.props.pin.getItemAvaliableBoards && (
                 <div>
                   <h4 className="left-align">Save to</h4>
                   <ul className="collection">{this.renderBoardsToSave()}</ul>

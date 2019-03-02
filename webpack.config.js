@@ -11,7 +11,9 @@ module.exports = {
 
     devtool: 'eval-source-map',
 
-    entry: './src/index.jsx',
+    entry: {
+        index: ['babel-polyfill', './src/index.jsx']
+    },
     output: {
         path: path.resolve('dist'),
         filename: 'bundle.js'
@@ -68,7 +70,9 @@ module.exports = {
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'https://localhost:5001',
+            apiItemsUrl: 'https://localhost:5001',
+            apiMatchmakingUrl: 'https://localhost:5001',
+            apiUsersUrl: 'https://localhost:5001',
         })
     }
 }

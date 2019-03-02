@@ -3,20 +3,20 @@ import { authHeader } from "../helpers";
 
 import axios from "axios";
 import { parseJSON, processErrorResponse } from "../utils/misc";
+import { signalRRegistration } from "../middleware/signalRRegistration";
 
 import jwtDecode from "jwt-decode";
 
 export const authService = {
   login,
   register,
-  logout,
+  logout
 };
 
-function login(email, password) {
+function login(email) {
   return axios
-    .post(`${config.apiUrl}/account/token`, {
-      Email: email,
-      Password: password
+    .post(`${config.apiItemsUrl}/users/user/token`, {
+      Email: email
     })
     .then(parseJSON)
     .then(
@@ -29,7 +29,7 @@ function login(email, password) {
             token: response.token
           };
           localStorage.setItem("user", JSON.stringify(user));
-
+          // signalRRegistration.
           // axios.defaults.headers.common['Authorization'] =
           //     'Bearer ' + response.token;
           return user;
@@ -42,14 +42,11 @@ function login(email, password) {
     );
 }
 
-function register(email, username, password, firstName, surName) {
+function register(email, username) {
   return axios
-    .post(`${config.apiUrl}/account/register`, {
+    .post(`${config.apiItemsUrl}/users/user`, {
       Username: username,
-      Email: email,
-      Password: password,
-      FirstName: firstName,
-      Surname: surName
+      Email: email
     })
     .then(parseJSON)
     .then(
@@ -62,6 +59,7 @@ function register(email, username, password, firstName, surName) {
             token: response.token
           };
           localStorage.setItem("user", JSON.stringify(user));
+          // debugger;
 
           // axios.defaults.headers.common['Authorization'] =
           //     'Bearer ' + response.token;

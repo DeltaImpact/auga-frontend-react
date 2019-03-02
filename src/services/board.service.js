@@ -15,7 +15,7 @@ export const boardService = {
 function getBoardPins(id) {
   return axios
     .get(
-      `${config.apiUrl}/board/getBoardPins`,
+      `${config.apiItemsUrl}/board/getBoardPins`,
       { boardId: id },
       {
         headers: { Authorization: authHeader() }
@@ -35,7 +35,7 @@ function getBoardPins(id) {
 function addBoard(name, description, img, isPrivate) {
   return axios
     .post(
-      `${config.apiUrl}/board/addBoard`,
+      `${config.apiItemsUrl}/board/addBoard`,
       {
         Name: name,
         Description: description,
@@ -60,9 +60,9 @@ function addBoard(name, description, img, isPrivate) {
 }
 
 function getBoards(nickname) {
-  let requestUrl = `${config.apiUrl}/board/getBoards?userNickname=${nickname}`;
+  let requestUrl = `${config.apiItemsUrl}/board/getBoards?userNickname=${nickname}`;
   if (nickname == undefined) {
-    requestUrl = `${config.apiUrl}/board/getBoards`;
+    requestUrl = `${config.apiItemsUrl}/board/getBoards`;
   }
   // debugger;
   // axios.defaults.headers.common["Authorization"] = authHeader();
@@ -86,7 +86,7 @@ function getBoards(nickname) {
 function getBoard(id) {
   return axios
     .get(
-      `${config.apiUrl}/board/${id}`,
+      `${config.apiItemsUrl}/board/${id}`,
       // {},
       {
         // .post("http://httpbin.org/post", {},  {
@@ -109,7 +109,7 @@ function getBoard(id) {
 function deleteBoard(Id) {
   return axios
     .post(
-      `${config.apiUrl}/board/deleteBoard`,
+      `${config.apiItemsUrl}/board/deleteBoard`,
       { Id: Id },
       {
         headers: {
@@ -131,7 +131,7 @@ function deleteBoard(Id) {
 function updateBoard(id, name, description, isPrivate) {
   return axios
     .post(
-      `${config.apiUrl}/board/updateBoard`,
+      `${config.apiItemsUrl}/board/updateBoard`,
       {
         Id: id,
         Name: name,

@@ -9,8 +9,12 @@ export class Card extends React.Component {
       mode: "preview",
       editTitle: "",
       editDescription: "",
+      editCost: 0,
+      editNumberOfParticipants: 0,
       editIsPrivateBoard: null,
       editTitle_error_text: null,
+      editCost_error_text: null,
+      editNumberOfParticipants_error_text: null,
       disabled: false,
       contentType: null
       // editTitle_error_text: null,
@@ -40,6 +44,8 @@ export class Card extends React.Component {
   isDisabled() {
     let editTitle_is_valid = false;
     let boardDescription_is_valid = false;
+    let boardCost_is_valid = false;
+    let boardNumberOfParticipants_is_valid = false;
     if (this.state.editTitle === "" || this.state.editTitle === null) {
       // this.setState({
       //   editTitle_error_text: null
@@ -68,7 +74,31 @@ export class Card extends React.Component {
       boardDescription_is_valid = false;
     }
 
-    if (editTitle_is_valid && boardDescription_is_valid) {
+    if (this.state.editCost > 2) {
+      // debugger;
+      boardCost_is_valid = true;
+      this.state.editCost_error_text = "";
+    } else {
+      boardCost_is_valid = false;
+      this.state.editCost_error_text = this.state.editCost + " < 2";
+    }
+
+    if (this.state.editNumberOfParticipants > 2) {
+      // debugger;
+      boardNumberOfParticipants_is_valid = true;
+      this.state.editNumberOfParticipants_error_text = "";
+    } else {
+      boardNumberOfParticipants_is_valid = false;
+      this.state.editNumberOfParticipants_error_text =
+        this.state.editCost + " < 2";
+    }
+
+    if (
+      editTitle_is_valid &&
+      boardDescription_is_valid &&
+      boardCost_is_valid &&
+      boardNumberOfParticipants_is_valid
+    ) {
       this.setState({
         disabled: false
       });
@@ -96,7 +126,7 @@ export class Card extends React.Component {
   }
 
   renderCardImage(item, typeOfElement) {
-    if (typeOfElement == "AddBoard") {
+    if (typeOfElement == "addItem") {
       return <i className="material-icons circle green">add</i>;
     }
 
@@ -114,6 +144,7 @@ export class Card extends React.Component {
   }
 
   renderEditCard(item, typeOfElement) {
+    // debugger
     return (
       <div>
         {this.renderCardImage(item, typeOfElement)}
@@ -172,29 +203,72 @@ export class Card extends React.Component {
               </div>
             )}
           </div>
-          {this.props.typeOfElement == "board" && (
-            <p>
-              <label className="input-field col s12">
+          {this.props.typeOfElement == "addItem" && (
+            <div>
+              <div className="input-field col s12">
                 <input
-                  type="checkbox"
-                  className="filled-in"
-                  checked={this.state.editIsPrivateBoard ? "checked" : ""}
-                  onChange={e => {
-                    this.setState({
-                      editIsPrivateBoard: e.target.checked
-                    });
-                  }}
+                  id="boardCost"
+                  type="number"
+                  value={this.state.editCost != null ? this.state.editCost : ""}
+                  className={
+                    this.state.boardCost_is_valid != null ? "invalid" : ""
+                  }
+                  onChange={e => this.changeValue(e, "editCost")}
                 />
-                <span>Private desk</span>
-              </label>
-            </p>
+                <label
+                  htmlFor="boardCost"
+                  className={this.state.editCost != null ? "active" : ""}
+                >
+                  Cost
+                </label>
+                {this.state.editCost_error_text && (
+                  <div className="error--text">
+                    {this.state.editCost_error_text}
+                  </div>
+                )}
+              </div>
+
+              <div className="input-field col s12">
+                <input
+                  id="boardNumberOfParticipants"
+                  type="number"
+                  value={
+                    this.state.editNumberOfParticipants != null
+                      ? this.state.editNumberOfParticipants
+                      : ""
+                  }
+                  className={
+                    this.state.boardNumberOfParticipants_is_valid != null
+                      ? "invalid"
+                      : ""
+                  }
+                  onChange={e =>
+                    this.changeValue(e, "editNumberOfParticipants")
+                  }
+                />
+                <label
+                  htmlFor="boardNumberOfParticipants"
+                  className={
+                    this.state.editNumberOfParticipants != null ? "active" : ""
+                  }
+                >
+                  Number of participants
+                </label>
+                {this.state.editNumberOfParticipants_error_text && (
+                  <div className="error--text">
+                    {this.state.editNumberOfParticipants_error_text}
+                  </div>
+                )}
+              </div>
+            </div>
           )}
         </div>
       </div>
     );
   }
 
-  renderCardFaceAddBoard(item, typeOfElement) {
+  renderCardFaceAddItem(item, typeOfElement) {
+    // debugger
     return (
       <div
         onClick={() => {
@@ -206,7 +280,7 @@ export class Card extends React.Component {
         }}
       >
         {this.renderCardImage(item, typeOfElement)}
-        <span className="title board__card__text--short">Create a board</span>
+        <span className="title board__card__text--short">Create item</span>
       </div>
     );
   }
@@ -242,6 +316,21 @@ export class Card extends React.Component {
             </span>
           </a>
         )}
+
+        {item.cost && (
+          <p className="board__misc board__card__text--short">
+            Cost: {item.cost}
+          </p>
+        )}
+
+        {item.numberOfParticipants && (
+          <p className="board__misc board__card__text--short">
+            Number of players: {item.numberOfParticipants}
+          </p>
+        )}
+
+        {/* {item} */}
+        {/* {JSON.stringify(item)} */}
 
         {this.renderMiscOfCard(item, typeOfElement)}
       </div>
@@ -286,8 +375,8 @@ export class Card extends React.Component {
   }
 
   renderCardFace(item, typeOfElement) {
-    if (typeOfElement == "AddBoard")
-      return this.renderCardFaceAddBoard(item, typeOfElement);
+    if (typeOfElement == "addItem")
+      return this.renderCardFaceAddItem(item, typeOfElement);
     if (typeOfElement == "UserCard")
       return this.renderCardFaceUserCard(item, typeOfElement);
     return this.renderCardFacePinOrBoard(item, typeOfElement);
@@ -318,12 +407,12 @@ export class Card extends React.Component {
     if (
       typeOfElement != "UserCard" &&
       typeOfElement != "board" &&
-      typeOfElement != "pin"
+      typeOfElement != "item"
     ) {
       debugger;
     }
 
-    if (typeOfElement == "board" || typeOfElement == "pin")
+    if (typeOfElement == "board" || typeOfElement == "item")
       content = this.renderMiscOfCardSmallBoardOrPin(item, typeOfElement);
 
     if (typeOfElement == "UserCard")
@@ -383,7 +472,7 @@ export class Card extends React.Component {
       <React.Fragment>
         {item.isOnline ? (
           <span className="board__misc__item--radio_button_checked">
-            Online
+            Connected
           </span>
         ) : (
           <span className="board__misc__item--radio_button_unchecked">
@@ -400,16 +489,17 @@ export class Card extends React.Component {
     return this.renderMiscOfCardSmall(item, typeOfElement);
   }
 
-  renderCardActionsConfirmDelete(item, typeOfElement) {
+  renderConfirmDelete(item, typeOfElement) {
     // debugger
     let deleteCompletelyButton;
-    if (this.props.deleteBoard || this.props.deletePin) {
+    if (this.props.deleteBoard || this.props.deleteItem) {
       deleteCompletelyButton = (
         <a
           onClick={e => {
             e.preventDefault;
             if (this.props.deleteBoard) this.props.deleteBoard(item.id);
-            if (this.props.deletePin) this.props.deletePin(item.id);
+            debugger;
+            if (this.props.deleteItem) this.props.deleteItem(item.id);
           }}
           className="waves-effect waves-light btn"
         >
@@ -462,20 +552,21 @@ export class Card extends React.Component {
                 );
               }
 
-              if (this.props.updatePin) {
-                this.props.updatePin(
+              if (this.props.updateItem) {
+                this.props.updateItem(
                   item.id,
                   this.state.editTitle,
                   this.state.editDescription
                 );
               }
 
-              if (this.props.addBoard)
-                this.props.addBoard(
+              if (this.props.addItem)
+                // debugger;
+                this.props.addItem(
                   this.state.editTitle,
                   this.state.editDescription,
-                  null,
-                  this.state.editIsPrivateBoard
+                  this.state.editCost,
+                  this.state.editNumberOfParticipants
                 );
             }
           }}
@@ -488,19 +579,22 @@ export class Card extends React.Component {
 
   renderCardActionsConfirmDelete(item, typeOfElement, isHovered) {
     return (
-      <div className="secondary-content">
-        <i
-          className="material-icons board__card__button"
-          onClick={e => {
-            e.preventDefault;
-            this.setState({
-              mode: "preview"
-            });
-          }}
-        >
-          close
-        </i>
-      </div>
+      <Fragment>
+        {/* Are you sure about this? */}
+        <div className="secondary-content">
+          <i
+            className="material-icons board__card__button"
+            onClick={e => {
+              e.preventDefault;
+              this.setState({
+                mode: "preview"
+              });
+            }}
+          >
+            close
+          </i>
+        </div>
+      </Fragment>
     );
   }
 
@@ -509,7 +603,7 @@ export class Card extends React.Component {
     if (this.props.editable != "false")
       return (
         <div className="secondary-content">
-          <i
+          {/* <i
             className="material-icons board__card__button"
             onClick={e => {
               e.preventDefault;
@@ -527,7 +621,7 @@ export class Card extends React.Component {
             }}
           >
             edit
-          </i>
+          </i> */}
           <i
             className="material-icons board__card__button"
             onClick={e => {
@@ -592,12 +686,13 @@ export class Card extends React.Component {
     if (this.state.mode == "preview" && typeOfElement == "UserCard")
       return this.renderCardActionsUserCard(item, typeOfElement, isHovered);
 
-    if (isHovered && typeOfElement != "AddBoard" && typeOfElement != "UserCard")
+    if (isHovered && typeOfElement != "addItem" && typeOfElement != "UserCard")
       return this.renderCardActionsPinOrBoard(item, typeOfElement, isHovered);
   }
 
   render() {
     const { item, typeOfElement } = this.props;
+
     this.state.contentType = typeOfElement;
     let cardContent;
     // debugger
@@ -609,7 +704,7 @@ export class Card extends React.Component {
         cardContent = this.renderEditCard(item, typeOfElement);
         break;
       case "confirmDelete":
-        cardContent = this.renderCardActionsConfirmDelete(item, typeOfElement);
+        cardContent = this.renderConfirmDelete(item, typeOfElement);
         break;
       default:
         return null;

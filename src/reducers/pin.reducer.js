@@ -1,229 +1,248 @@
 import { createReducer } from "../utils/misc";
 import {
-  ADD_PIN_REQUEST,
-  ADD_PIN_SUCCESS,
-  ADD_PIN_FAILURE,
-  DELETE_PIN_REQUEST,
-  DELETE_PIN_SUCCESS,
-  DELETE_PIN_FAILURE,
-  GETALL_PIN_REQUEST,
-  GETALL_PIN_SUCCESS,
-  GETALL_PIN_FAILURE,
-  GET_PIN_BOARDS_REQUEST,
-  GET_PIN_BOARDS_SUCCESS,
-  GET_PIN_BOARDS_FAILURE,
-  GET_PIN_AVALIABE_BOARDS_REQUEST,
-  GET_PIN_AVALIABE_BOARDS_SUCCESS,
-  GET_PIN_AVALIABE_BOARDS_FAILURE,
-  ADD_PIN_TO_BOARD_REQUEST,
-  ADD_PIN_TO_BOARD_SUCCESS,
-  ADD_PIN_TO_BOARD_FAILURE,
-  DELETE_PIN_FROM_BOARD_REQUEST,
-  DELETE_PIN_FROM_BOARD_SUCCESS,
-  DELETE_PIN_FROM_BOARD_FAILURE,
-  GET_PIN_MAIN_PAGE_REQUEST,
-  GET_PIN_MAIN_PAGE_SUCCESS,
-  GET_PIN_MAIN_PAGE_FAILURE
+  ADD_ITEM_REQUEST,
+  ADD_ITEM_SUCCESS,
+  ADD_ITEM_FAILURE,
+  DELETE_ITEM_REQUEST,
+  DELETE_ITEM_SUCCESS,
+  DELETE_ITEM_FAILURE,
+  GETALL_ITEM_REQUEST,
+  GETALL_ITEM_SUCCESS,
+  GETALL_ITEM_FAILURE,
+  GET_ITEM_BOARDS_REQUEST,
+  GET_ITEM_BOARDS_SUCCESS,
+  GET_ITEM_BOARDS_FAILURE,
+  GET_ITEM_AVALIABE_BOARDS_REQUEST,
+  GET_ITEM_AVALIABE_BOARDS_SUCCESS,
+  GET_ITEM_AVALIABE_BOARDS_FAILURE,
+  ADD_ITEM_TO_BOARD_REQUEST,
+  ADD_ITEM_TO_BOARD_SUCCESS,
+  ADD_ITEM_TO_BOARD_FAILURE,
+  DELETE_ITEM_FROM_BOARD_REQUEST,
+  DELETE_ITEM_FROM_BOARD_SUCCESS,
+  DELETE_ITEM_FROM_BOARD_FAILURE,
+  GET_ITEM_MAIN_PAGE_REQUEST,
+  GET_ITEM_MAIN_PAGE_SUCCESS,
+  GET_ITEM_MAIN_PAGE_FAILURE
 } from "../constants/pin.constants";
 
 const reducerInitialState = {
   pins: null,
   pin: null,
-  getPinLoading: null,
-  AddPinError: null,
+  getItemLoading: null,
+  addItemError: null,
   loading: null,
   getAllPinsLoading: null,
   getAllPinsError: null,
-  AddPinLoading: null,
-  AddPinRedirectTo: null,
-  deletePinError: null,
-  deletePinLoading: null,
-  updatePinLoading: null,
-  updatePinError: null,
-  updatePinId: null,
-  AddPinToBoardLoading: null,
-  AddPinToBoard: null,
-  AddPinToBoardError: null,
-  DeletePinFromBoardLoading: null,
-  DeletePinFromBoard: null,
-  DeletePinFromBoardError: null,
-  GetPinBoardsLoading: null,
-  GetPinBoards: null,
-  GetPinBoardsError: null,
-  GetPinAvaliableBoardsLoading: null,
-  GetPinAvaliableBoards: null,
-  GetPinAvaliableBoardsError: null,
-  getMainPageLoading: null,
-  getMainPage: null,
-  getMainPageError: null
+  addItemLoading: null,
+  addItemRedirectTo: null,
+  deleteItemError: null,
+  deleteItemLoading: null,
+  updateItemLoading: null,
+  updateItemError: null,
+  updateItemId: null,
+  addItemToBoardLoading: null,
+  addItemToBoard: null,
+  addItemToBoardError: null,
+  deleteItemFromBoardLoading: null,
+  deleteItemFromBoard: null,
+  deleteItemFromBoardError: null,
+  getItemBoardsLoading: null,
+  getItemBoards: null,
+  getItemBoardsError: null,
+  getItemAvaliableBoardsLoading: null,
+  getItemAvaliableBoards: null,
+  getItemAvaliableBoardsError: null,
+  getItemsLoading: null,
+  getItems: null,
+  getItemsError: null,
+  getUserItemsLoading: null,
+  getUserItems: null,
+  getUserItemsError: null
 };
 
 export default createReducer(reducerInitialState, {
-  GET_PIN_MAIN_PAGE_REQUEST: (state, payload) =>
+  GET_USER_ITEMS_REQUEST: state =>
     Object.assign({}, state, {
-      // updatePin: null,
-      getMainPageLoading: true,
-      updatePinError: null,
+      getUserItemsLoading: true,
+      getUserItemsError: null
     }),
-  GET_PIN_MAIN_PAGE_SUCCESS: (state, payload) =>
+  GET_USER_ITEMS_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      getMainPageLoading: false,
-      getMainPage: payload
+      getAllPinsLoading: false,
+      getUserItems: payload
     }),
-  GET_PIN_MAIN_PAGE_FAILURE: (state, payload) =>
+  GET_USER_ITEMS_FAILURE: (state, payload) =>
     Object.assign({}, state, {
-      getMainPageLoading: false,
-      getMainPageError: payload
+      getUserItemsLoading: false,
+      getUserItems: null,
+      getUserItemsError: payload
     }),
-  ADD_PIN_REQUEST: (state, payload) =>
+  GET_ITEM_MAIN_PAGE_REQUEST: (state, payload) =>
     Object.assign({}, state, {
-      AddPinLoading: true,
-      AddPinRedirectTo: null,
-      AddPinError: payload
+      // updateItem: null,
+      getItemsLoading: true,
+      updateItemError: null
     }),
-  ADD_PIN_SUCCESS: (state, payload) =>
+  GET_ITEM_MAIN_PAGE_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      AddPinLoading: false,
-      AddPinRedirectTo: payload.id
+      getItemsLoading: false,
+      getItems: payload
     }),
-  ADD_PIN_FAILURE: (state, payload) =>
+  GET_ITEM_MAIN_PAGE_FAILURE: (state, payload) =>
     Object.assign({}, state, {
-      AddPinLoading: false,
+      getItemsLoading: false,
+      getItemsError: payload
+    }),
+  ADD_ITEM_REQUEST: (state, payload) =>
+    Object.assign({}, state, {
+      addItemLoading: true,
+      addItemRedirectTo: null,
+      addItemError: payload
+    }),
+  ADD_ITEM_SUCCESS: (state, payload) =>
+    Object.assign({}, state, {
+      addItemLoading: false,
+      addItemRedirectTo: payload.id
+    }),
+  ADD_ITEM_FAILURE: (state, payload) =>
+    Object.assign({}, state, {
+      addItemLoading: false,
       pin: null,
-      AddPinError: payload
+      addItemError: payload
     }),
-  UPDATE_PIN_REQUEST: (state, payload) =>
+  UPDATE_ITEM_REQUEST: (state, payload) =>
     Object.assign({}, state, {
-      // updatePin: null,
-      updatePinLoading: true,
-      updatePinError: null,
-      updatePinId: payload.id
+      // updateItem: null,
+      updateItemLoading: true,
+      updateItemError: null,
+      updateItemId: payload.id
     }),
-  UPDATE_PIN_SUCCESS: (state, payload) =>
+  UPDATE_ITEM_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      updatePinLoading: false
+      updateItemLoading: false
     }),
-  UPDATE_PIN_FAILURE: (state, payload) =>
+  UPDATE_ITEM_FAILURE: (state, payload) =>
     Object.assign({}, state, {
-      updatePinLoading: false,
-      // updatePin: null,
-      updatePinError: payload
+      updateItemLoading: false,
+      // updateItem: null,
+      updateItemError: payload
     }),
-  DELETE_PIN_REQUEST: (state, payload) =>
+  DELETE_ITEM_REQUEST: (state, payload) =>
     Object.assign({}, state, {
-      deletePinLoading: true,
-      deletePinError: true
+      deleteItemLoading: true,
+      deleteItemError: true
     }),
-  DELETE_PIN_SUCCESS: (state, payload) =>
+  DELETE_ITEM_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      deletePinLoading: false,
+      deleteItemLoading: false,
       pin: payload
       // pins: state.pins.filter(t => t.id != payload.pin.id)
     }),
-  DELETE_PIN_FAILURE: (state, payload) =>
+  DELETE_ITEM_FAILURE: (state, payload) =>
     Object.assign({}, state, {
-      deletePinLoading: false,
+      deleteItemLoading: false,
       pin: null,
-      deletePinError: payload
+      deleteItemError: payload
     }),
-  GETALL_PIN_REQUEST: state =>
+  GETALL_ITEM_REQUEST: state =>
     Object.assign({}, state, {
       getAllPinsLoading: true,
       getAllPinsError: null
     }),
-  GETALL_PIN_SUCCESS: (state, payload) =>
+  GETALL_ITEM_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
       getAllPinsLoading: false,
       pins: payload
     }),
-  GETALL_PIN_FAILURE: (state, payload) =>
+  GETALL_ITEM_FAILURE: (state, payload) =>
     Object.assign({}, state, {
       getAllPinsLoading: false,
       pins: null,
       getAllPinsError: payload
     }),
-  GET_PIN_REQUEST: state =>
+  GET_ITEM_REQUEST: state =>
     Object.assign({}, state, {
-      getPinLoading: true,
-      getPinError: null
+      getItemLoading: true,
+      getItemError: null
     }),
-  GET_PIN_SUCCESS: (state, payload) =>
+  GET_ITEM_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      getPinLoading: false,
+      getItemLoading: false,
       pin: payload
     }),
-  GET_PIN_FAILURE: (state, payload) =>
+  GET_ITEM_FAILURE: (state, payload) =>
     Object.assign({}, state, {
-      getPinLoading: false,
+      getItemLoading: false,
       pin: null,
-      getPinError: payload
+      getItemError: payload
     }),
-  ADD_PIN_TO_BOARD_REQUEST: state =>
+  ADD_ITEM_TO_BOARD_REQUEST: state =>
     Object.assign({}, state, {
-      AddPinToBoardLoading: true,
-      AddPinToBoardError: null
+      addItemToBoardLoading: true,
+      addItemToBoardError: null
     }),
-  ADD_PIN_TO_BOARD_SUCCESS: (state, payload) =>
+  ADD_ITEM_TO_BOARD_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      AddPinToBoardLoading: false,
-      GetPinBoards: [...state.GetPinBoards, payload],
-      GetPinAvaliableBoards: state.GetPinAvaliableBoards.filter(
+      addItemToBoardLoading: false,
+      getItemBoards: [...state.getItemBoards, payload],
+      getItemAvaliableBoards: state.getItemAvaliableBoards.filter(
         t => t.id != payload.id
       )
     }),
-  ADD_PIN_TO_BOARD_FAILURE: (state, payload) =>
+  ADD_ITEM_TO_BOARD_FAILURE: (state, payload) =>
     Object.assign({}, state, {
-      AddPinToBoardLoading: false,
-      AddPinToBoard: null,
-      AddPinToBoardError: payload
+      addItemToBoardLoading: false,
+      addItemToBoard: null,
+      addItemToBoardError: payload
     }),
-  DELETE_PIN_FROM_BOARD_REQUEST: state =>
+  DELETE_ITEM_FROM_BOARD_REQUEST: state =>
     Object.assign({}, state, {
-      DeletePinFromBoardLoading: true,
-      DeletePinFromBoardError: null
+      deleteItemFromBoardLoading: true,
+      deleteItemFromBoardError: null
     }),
-  DELETE_PIN_FROM_BOARD_SUCCESS: (state, payload) =>
+  DELETE_ITEM_FROM_BOARD_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      DeletePinFromBoardLoading: false,
-      GetPinAvaliableBoards: [...state.GetPinAvaliableBoards, payload],
-      GetPinBoards: state.GetPinBoards.filter(t => t.id != payload.id)
+      deleteItemFromBoardLoading: false,
+      getItemAvaliableBoards: [...state.getItemAvaliableBoards, payload],
+      getItemBoards: state.getItemBoards.filter(t => t.id != payload.id)
     }),
-  DELETE_PIN_FROM_BOARD_FAILURE: (state, payload) =>
+  DELETE_ITEM_FROM_BOARD_FAILURE: (state, payload) =>
     Object.assign({}, state, {
-      DeletePinFromBoardLoading: false,
-      DeletePinFromBoard: null,
-      DeletePinFromBoardError: payload
+      deleteItemFromBoardLoading: false,
+      deleteItemFromBoard: null,
+      deleteItemFromBoardError: payload
     }),
-  GET_PIN_BOARDS_REQUEST: state =>
+  GET_ITEM_BOARDS_REQUEST: state =>
     Object.assign({}, state, {
-      GetPinBoardsLoading: true,
-      GetPinBoardsError: null
+      getItemBoardsLoading: true,
+      getItemBoardsError: null
     }),
-  GET_PIN_BOARDS_SUCCESS: (state, payload) =>
+  GET_ITEM_BOARDS_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      GetPinBoardsLoading: false,
-      GetPinBoards: payload
+      getItemBoardsLoading: false,
+      getItemBoards: payload
     }),
-  GET_PIN_BOARDS_FAILURE: (state, payload) =>
+  GET_ITEM_BOARDS_FAILURE: (state, payload) =>
     Object.assign({}, state, {
-      GetPinBoardsLoading: false,
-      GetPinBoards: null,
-      GetPinBoardsError: payload
+      getItemBoardsLoading: false,
+      getItemBoards: null,
+      getItemBoardsError: payload
     }),
-  GET_PIN_AVALIABE_BOARDS_REQUEST: state =>
+  GET_ITEM_AVALIABE_BOARDS_REQUEST: state =>
     Object.assign({}, state, {
-      GetPinAvaliableBoardsLoading: true,
-      GetPinAvaliableBoardsError: null
+      getItemAvaliableBoardsLoading: true,
+      getItemAvaliableBoardsError: null
     }),
-  GET_PIN_AVALIABE_BOARDS_SUCCESS: (state, payload) =>
+  GET_ITEM_AVALIABE_BOARDS_SUCCESS: (state, payload) =>
     Object.assign({}, state, {
-      GetPinAvaliableBoardsLoading: false,
-      GetPinAvaliableBoards: payload
+      getItemAvaliableBoardsLoading: false,
+      getItemAvaliableBoards: payload
     }),
-  GET_PIN_AVALIABE_BOARDS_FAILURE: (state, payload) =>
+  GET_ITEM_AVALIABE_BOARDS_FAILURE: (state, payload) =>
     Object.assign({}, state, {
-      GetPinAvaliableBoardsLoading: false,
-      GetPinAvaliableBoards: null,
-      DeletePinFromBoardError: payload
+      getItemAvaliableBoardsLoading: false,
+      getItemAvaliableBoards: null,
+      deleteItemFromBoardError: payload
     })
 });

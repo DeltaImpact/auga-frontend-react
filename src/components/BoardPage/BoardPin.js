@@ -307,7 +307,7 @@ export class BoardPin extends React.Component {
     //       onClick={e => {
     //         e.preventDefault;
     //       
-    //         this.props.deletePin(pin.id);
+    //         this.props.deleteItem(pin.id);
     //       }}
     //     >
     //       <i className="material-icons">delete</i>

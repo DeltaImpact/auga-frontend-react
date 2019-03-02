@@ -59,10 +59,11 @@ function convertUTCTimeToLocalTime(UTCDateString) {
 export function dateInWordsToNow(date) {
   return date == null
     ? null
-    : distanceInWordsToNow(convertUTCTimeToLocalTime(date), 
-    // {
-    //     locale: ruLocale
-    //   }
+    : distanceInWordsToNow(
+        convertUTCTimeToLocalTime(date)
+        // {
+        //     locale: ruLocale
+        //   }
       );
 }
 
@@ -82,6 +83,14 @@ export function renderError(error) {
     if (error.messages.Surname) {
       array.push(error.messages.Surname);
     }
+
+    if (error.messages.Email) {
+      array.push(error.messages.Email);
+    }
+
+    if (error.messages.Username) {
+      array.push(error.messages.Username);
+    }
   }
 
   if (error.message) {
@@ -100,7 +109,11 @@ export function renderError(error) {
         .map((error, i) => {
           return (
             <div key={i} className="error error--text alert alert-info">
-              {error}
+              {!Array.isArray(error) && error}
+              {Array.isArray(error) &&
+                error.map((error, i) => {
+                  return <p key={i}>{error}</p>;
+                })}
             </div>
           );
         })

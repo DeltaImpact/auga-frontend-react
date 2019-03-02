@@ -19,30 +19,26 @@ class MainPage extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getMainPage();
-    // if (this.props.match.params.id != null) {
-    //   let boardId = this.props.match.params.id;
-    //   this.props.getBoard(boardId);
-    // }
+    this.props.getItems();
   }
 
   renderPins() {
-    return this.props.pin.getMainPage.map((pin, i) => {
+    return this.props.pin.pins.map((pin, i) => {
       return this.renderPin(pin);
     });
   }
 
-  renderPin(pin) {
+  renderPin(item) {
     return (
       <Card
-        key={pin.id}
-        item={pin}
-        // updatePin={this.props.updatePin}
-        // deletePin={this.props.deletePin}
-        // deletePin={this.props.deletePin}
-        // loading={this.props.pin.updatePinLoading}
-        // error={this.props.pin.updatePinError}
-        typeOfElement="pin"
+        key={item.id}
+        item={item}
+        // updateItem={this.props.updateItem}
+        // deleteItem={this.props.deleteItem}
+        // deleteItem={this.props.deleteItem}
+        // loading={this.props.pin.updateItemLoading}
+        // error={this.props.pin.updateItemError}
+        typeOfElement="item"
         editable="false"
       />
     );
@@ -54,23 +50,20 @@ class MainPage extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col l8 offset-l2 m8 l9 legacy-content">
-              {/* <h4 className="left-align">Pins on board</h4> */}
-
-              {this.props.pin.getMainPageLoading && (
+              {this.props.pin.getItemsLoading && (
                 <div className="progress">
                   <div className="indeterminate" />
                 </div>
               )}
-              {this.props.pin.getMainPageError && (
+              {this.props.pin.getItemsError && (
                 <div className="row error--container">
                   <div className="error error--text alert alert-info">
-                    {this.props.pin.getMainPageError.message}
+                    {this.props.pin.getItemsError.message}
                   </div>
                 </div>
               )}
-
               <ul className="collection">
-                {this.props.pin.getMainPage && this.renderPins()}
+                {this.props.pin.pins && this.renderPins()}
               </ul>
             </div>
           </div>

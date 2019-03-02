@@ -13,9 +13,9 @@ export const profileService = {
 };
 
 function dataAboutUser(nickname) {
-  let requestUrl = `${config.apiUrl}/account/user?userNickname=${nickname}`;
+  let requestUrl = `${config.apiUsersUrl}/users/user?userNickname=${nickname}`;
   if (nickname== undefined){
-    requestUrl = `${config.apiUrl}/account/user`;
+    requestUrl = `${config.apiUsersUrl}/users/user`;
   }
 
   return axios
@@ -39,7 +39,7 @@ function dataAboutUser(nickname) {
 function changePassword(oldPassword, newPassword) {
   return axios
     .put(
-      `${config.apiUrl}/account/changePassword`,
+      `${config.apiUsersUrl}/account/changePassword`,
       {
         oldPassword: oldPassword,
         newPassword: newPassword
@@ -64,7 +64,7 @@ function changePassword(oldPassword, newPassword) {
 function editProfile(email, username, firstName, surName, gender) {
   return axios
     .put(
-      `${config.apiUrl}/account/editProfile`,
+      `${config.apiUsersUrl}/account/editProfile`,
       {
         Username: username,
         Email: email,

@@ -4,16 +4,6 @@ import { connect } from "react-redux";
 import { authActions } from "../actions";
 import { validateEmail, renderError } from "../utils/misc";
 
-// const style = {
-//     marginTop: 50,
-//     paddingBottom: 50,
-//     paddingTop: 25,
-//     width: '100%',
-//     textAlign: 'center',
-//     display: 'inline-block',
-// };
-
-// @connect(mapStateToProps, mapDispatchToProps)
 class RegisterView extends React.Component {
   constructor(props) {
     super(props);
@@ -38,9 +28,7 @@ class RegisterView extends React.Component {
 
   isDisabled() {
     let email_is_valid = false;
-    let password_is_valid = false;
     let username_is_valid = false;
-    let passwordConf_is_valid = false;
 
     if (this.state.email === "") {
       this.setState({
@@ -72,37 +60,9 @@ class RegisterView extends React.Component {
       });
     }
 
-    if (this.state.password === "" || !this.state.password) {
-      this.setState({
-        password_error_text: null
-      });
-    } else if (this.state.password.length >= 6) {
-      password_is_valid = true;
-      this.setState({
-        password_error_text: null
-      });
-    } else {
-      this.setState({
-        password_error_text: "Your password must be at least 6 characters"
-      });
-    }
-
-    if (this.state.password == this.state.passwordConf) {
-      passwordConf_is_valid = true;
-      this.setState({
-        passwordConf_error_text: null
-      });
-    } else {
-      this.setState({
-        passwordConf_error_text: "Passwords did not match."
-      });
-    }
-
     if (
       email_is_valid &&
-      password_is_valid &&
-      username_is_valid &&
-      passwordConf_is_valid
+      username_is_valid
     ) {
       this.setState({
         disabled: false
@@ -131,10 +91,7 @@ class RegisterView extends React.Component {
     e.preventDefault();
     this.props.register(
       this.state.email,
-      this.state.username,
-      this.state.password,
-      this.state.firstName,
-      this.state.surName
+      this.state.username
     );
   }
 
@@ -156,14 +113,6 @@ class RegisterView extends React.Component {
 
               <div className="row">
                 <form className="col s12">
-                  {/* {this.props.account.registerError && (
-                    <div className="row error--container">
-                      <div className="error error--text alert alert-info">
-                        {this.props.account.registerError}
-                      </div>
-                    </div>
-                  )} */}
-
                   <div className="row">
                     <div className="input-field col s12">
                       <input
@@ -214,107 +163,6 @@ class RegisterView extends React.Component {
                       )}
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="input-field col s6">
-                      <input
-                        id="pass"
-                        type="password"
-                        value={this.state.password}
-                        className={
-                          this.state.password_error_text != null
-                            ? "invalid"
-                            : ""
-                        }
-                        onChange={e => this.changeValue(e, "password")}
-                      />
-                      <label
-                        htmlFor="pass"
-                        className={this.state.password != null ? "active" : ""}
-                      >
-                        Password*
-                      </label>
-                      {this.state.password_error_text && (
-                        <div className="error--text">
-                          {this.state.password_error_text}
-                        </div>
-                      )}
-                    </div>
-                    <div className="input-field col s6">
-                      <input
-                        id="passConf"
-                        type="password"
-                        value={this.state.passwordConf}
-                        className={
-                          this.state.passwordConf_error_text != null
-                            ? "invalid"
-                            : ""
-                        }
-                        onChange={e => this.changeValue(e, "passwordConf")}
-                      />
-                      <label
-                        htmlFor="passConf"
-                        className={
-                          this.state.passwordConf != null ? "active" : ""
-                        }
-                      >
-                        Confirm password
-                      </label>
-                      {this.state.passwordConf_error_text && (
-                        <div className="error--text">
-                          {this.state.passwordConf_error_text}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-field col s6">
-                      <input
-                        id="firstName"
-                        type="text"
-                        value={this.state.firstName}
-                        className={
-                          this.state.firstName_error_text != null
-                            ? "invalid"
-                            : ""
-                        }
-                        onChange={e => this.changeValue(e, "firstName")}
-                      />
-                      <label
-                        htmlFor="firstName"
-                        className={this.state.firstName != null ? "active" : ""}
-                      >
-                        First Name
-                      </label>
-                      {this.state.firstName_error_text && (
-                        <div className="error--text">
-                          {this.state.firstName_error_text}
-                        </div>
-                      )}
-                    </div>
-                    <div className="input-field col s6">
-                      <input
-                        id="surName"
-                        type="text"
-                        value={this.state.surName}
-                        className={
-                          this.state.surName_error_text != null ? "invalid" : ""
-                        }
-                        onChange={e => this.changeValue(e, "surName")}
-                      />
-                      <label
-                        htmlFor="surName"
-                        className={this.state.surName != null ? "active" : ""}
-                      >
-                        Last Name
-                      </label>
-                      {this.state.surName_error_text && (
-                        <div className="error--text">
-                          {this.state.surName_error_text}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
                   <div className="row">
                     <div className="col m12">
                       <div className="col s10  offset-s1">

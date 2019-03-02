@@ -24,7 +24,6 @@ class LoginView extends React.Component {
 
   isDisabled() {
     let email_is_valid = false;
-    let password_is_valid = false;
 
     if (this.state.email === "") {
       this.setState({
@@ -41,22 +40,7 @@ class LoginView extends React.Component {
       });
     }
 
-    if (this.state.password === "" || !this.state.password) {
-      this.setState({
-        password_error_text: null
-      });
-    } else if (this.state.password.length >= 6) {
-      password_is_valid = true;
-      this.setState({
-        password_error_text: null
-      });
-    } else {
-      this.setState({
-        password_error_text: "Your password at least 6 characters"
-      });
-    }
-
-    if (email_is_valid && password_is_valid) {
+    if (email_is_valid) {
       this.setState({
         disabled: false
       });
@@ -88,17 +72,12 @@ class LoginView extends React.Component {
     e.preventDefault();
     this.props.login(
       this.state.email,
-         this.state.password,
       this.state.redirectTo
     );
   }
 
   emailClasses() {
     return this.state.email_error_text != null ? "invalid" : "";
-  }
-
-  passwordClasses() {
-    return this.state.password_error_text != null ? "invalid" : "";
   }
 
   submitClasses() {
@@ -123,6 +102,7 @@ class LoginView extends React.Component {
                 <form className="col s12">
                   {this.props.account.loginError &&
                     renderError(this.props.account.loginError)}
+                    
                   <div className="row">
                     <div className="input-field col s12">
                       <input
@@ -141,28 +121,6 @@ class LoginView extends React.Component {
                       {this.state.email_error_text && (
                         <div className="error--text">
                           {this.state.email_error_text}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-field col s12">
-                      <input
-                        id="pass"
-                        type="password"
-                        value={this.state.password}
-                        className={this.passwordClasses()}
-                        onChange={e => this.changeValue(e, "password")}
-                      />
-                      <label
-                        htmlFor="pass"
-                        className={this.state.password != null ? "active" : ""}
-                      >
-                        Password
-                      </label>
-                      {this.state.password_error_text && (
-                        <div className="error--text">
-                          {this.state.password_error_text}
                         </div>
                       )}
                     </div>

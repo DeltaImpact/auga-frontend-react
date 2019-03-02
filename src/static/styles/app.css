@@ -237,3 +237,7 @@ body {
   padding: 15px;
   margin: 0;
 }
+
+.players__list__item {
+  display: inline-block;
+}

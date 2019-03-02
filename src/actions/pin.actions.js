@@ -1,217 +1,248 @@
-import { pinConstants } from "../constants";
+import { itemConstants } from "../constants";
 import { pinService } from "../services";
 import { history } from "../helpers";
 
 export const pinActions = {
-  addPin,
-  deletePin,
-  getPins,
-  getPin,
-  updatePin,
+  addItem,
+  deleteItem,
+  getItems,
+  getUserItems,
+  getItem,
+  updateItem,
   getBoardsWherePinSaved,
   getBoardsWherePinNotSaved,
-  addPinToBoard,
-  deletePinFromBoard,
-  getMainPage
+  addItemToBoard,
+  deleteItemFromBoard
 };
 
-function updatePin(id, name, description) {
+function getUserItems(userId) {
+  return function(dispatch) {
+    dispatch(getUserItemsRequest());
+    return pinService.getUserItems(userId).then(
+      response => {
+        dispatch(getUserItemsSuccess(response));
+      },
+      error => {
+        dispatch(getUserItemsFailure(error));
+      }
+    );
+  };
+}
+
+export function getUserItemsRequest() {
+  return {
+    type: itemConstants.GET_USER_ITEMS_REQUEST
+  };
+}
+
+export function getUserItemsSuccess(payload) {
+  return {
+    type: itemConstants.GET_USER_ITEMS_SUCCESS,
+    payload
+  };
+}
+
+export function getUserItemsFailure(error) {
+  return {
+    type: itemConstants.GET_USER_ITEMS_FAILURE,
+    payload: error
+  };
+}
+
+function updateItem(id, name, description) {
   return function(dispatch) {
     let boardParams = {
       id,
       name,
       description
     };
-    dispatch(updatePinRequest(boardParams));
-    return pinService.updatePin(id, name, description).then(
+    dispatch(updateItemRequest(boardParams));
+    return pinService.updateItem(id, name, description).then(
       response => {
-        dispatch(updatePinSuccess(response));
+        dispatch(updateItemSuccess(response));
       },
       error => {
-        dispatch(updatePinFailure(error));
+        dispatch(updateItemFailure(error));
       }
     );
   };
 }
 
-export function updatePinRequest(payload) {
+export function updateItemRequest(payload) {
   return {
-    type: pinConstants.UPDATE_PIN_REQUEST,
+    type: itemConstants.UPDATE_ITEM_REQUEST,
     payload
   };
 }
 
-export function updatePinSuccess(payload) {
+export function updateItemSuccess(payload) {
   return {
-    type: pinConstants.UPDATE_PIN_SUCCESS,
+    type: itemConstants.UPDATE_ITEM_SUCCESS,
     payload
   };
 }
 
-export function updatePinFailure(error) {
+export function updateItemFailure(error) {
   return {
-    type: pinConstants.UPDATE_PIN_FAILURE,
+    type: itemConstants.UPDATE_ITEM_FAILURE,
     payload: error
   };
 }
 
-function addPin(name, description, img, Link, id) {
+function addItem(name, description, cost, participantsNumber) {
   return function(dispatch) {
     let pinParams = {
       name,
       description,
-      img,
-      Link,
-      id
+      cost,
+      participantsNumber
     };
-    dispatch(addPinRequest(pinParams));
-    return pinService.addPin(name, description, img, Link, id).then(
+    dispatch(addItemRequest(pinParams));
+    return pinService.addItem(name, description, cost, participantsNumber).then(
       response => {
-        dispatch(addPinSuccess(response));
-        // debugger
-        // let pinAddress = "/pin/" + response.id;
-        let user = JSON.parse(localStorage.getItem('user'));
-    // debugger
-    
-        let pinAddress = "/profile/" + user.username ;
-        history.push(pinAddress);
+        dispatch(addItemSuccess(response));
+        // // debugger
+        // // let pinAddress = "/pin/" + response.id;
+        // let user = JSON.parse(localStorage.getItem("user"));
+        // // debugger
+        // debugger;
+        // let pinAddress = "/profile/" + user.username;
+        // history.push(pinAddress);
       },
       error => {
-        dispatch(addPinFailure(error));
+        dispatch(addItemFailure(error));
       }
     );
   };
 }
 
-export function addPinRequest(tmp) {
-
+export function addItemRequest(tmp) {
   return {
-    type: pinConstants.ADD_PIN_REQUEST,
+    type: itemConstants.ADD_ITEM_REQUEST,
     payload: {
       tmp
     }
   };
 }
 
-export function addPinSuccess(payload) {
-
+export function addItemSuccess(payload) {
   return {
-    type: pinConstants.ADD_PIN_SUCCESS,
+    type: itemConstants.ADD_ITEM_SUCCESS,
     payload
   };
 }
 
-export function addPinFailure(error) {
+export function addItemFailure(error) {
   return {
-    type: pinConstants.ADD_PIN_FAILURE,
+    type: itemConstants.ADD_ITEM_FAILURE,
     payload: error
   };
 }
 
-function getPins() {
+function getItems() {
   return function(dispatch) {
-    dispatch(getPinsRequest());
-    return pinService.getPins().then(
+    dispatch(getItemsRequest());
+    return pinService.getItems().then(
       response => {
-        dispatch(getPinsSuccess(response));
+        dispatch(getItemsSuccess(response));
       },
       error => {
-        dispatch(getPinsFailure(error));
+        dispatch(getItemsFailure(error));
       }
     );
   };
 }
 
-export function getPinsRequest() {
+export function getItemsRequest() {
   return {
-    type: pinConstants.GETALL_PIN_REQUEST
+    type: itemConstants.GETALL_ITEM_REQUEST
   };
 }
 
-export function getPinsSuccess(payload) {
+export function getItemsSuccess(payload) {
   return {
-    type: pinConstants.GETALL_PIN_SUCCESS,
+    type: itemConstants.GETALL_ITEM_SUCCESS,
     payload
   };
 }
 
-export function getPinsFailure(error) {
+export function getItemsFailure(error) {
   return {
-    type: pinConstants.GETALL_PIN_FAILURE,
+    type: itemConstants.GETALL_ITEM_FAILURE,
     payload: error
   };
 }
 
-function deletePin(name) {
+function deleteItem(name) {
   return function(dispatch) {
     let pinParams = {
       name
     };
-    dispatch(deletePinRequest(pinParams));
-    return pinService.deletePin(name).then(
+    dispatch(deleteItemRequest(pinParams));
+    return pinService.deleteItem(name).then(
       response => {
-        dispatch(deletePinSuccess(response));
+        dispatch(deleteItemSuccess(response));
       },
       error => {
-        dispatch(deletePinFailure(error));
+        dispatch(deleteItemFailure(error));
       }
     );
   };
 }
 
-export function deletePinRequest(tmp) {
+export function deleteItemRequest(tmp) {
   return {
-    type: pinConstants.DELETE_PIN_REQUEST,
+    type: itemConstants.DELETE_ITEM_REQUEST,
     payload: {
       tmp
     }
   };
 }
 
-export function deletePinSuccess(payload) {
+export function deleteItemSuccess(payload) {
   return {
-    type: pinConstants.DELETE_PIN_SUCCESS,
+    type: itemConstants.DELETE_ITEM_SUCCESS,
     payload
   };
 }
 
-export function deletePinFailure(error) {
+export function deleteItemFailure(error) {
   return {
-    type: pinConstants.DELETE_PIN_FAILURE,
+    type: itemConstants.DELETE_ITEM_FAILURE,
     payload: error
   };
 }
 
-function getPin(id) {
+function getItem(id) {
   return function(dispatch) {
-    dispatch(getPinRequest());
-    return pinService.getPin(id).then(
+    dispatch(getItemRequest());
+    return pinService.getItem(id).then(
       response => {
-        dispatch(getPinSuccess(response));
+        dispatch(getItemSuccess(response));
       },
       error => {
-        dispatch(getPinFailure(error));
+        dispatch(getItemFailure(error));
       }
     );
   };
 }
 
-export function getPinRequest() {
+export function getItemRequest() {
   return {
-    type: pinConstants.GET_PIN_REQUEST
+    type: itemConstants.GET_ITEM_REQUEST
   };
 }
 
-export function getPinSuccess(payload) {
+export function getItemSuccess(payload) {
   return {
-    type: pinConstants.GET_PIN_SUCCESS,
+    type: itemConstants.GET_ITEM_SUCCESS,
     payload
   };
 }
 
-export function getPinFailure(error) {
+export function getItemFailure(error) {
   return {
-    type: pinConstants.GET_PIN_FAILURE,
+    type: itemConstants.GET_ITEM_FAILURE,
     payload: error
   };
 }
@@ -232,20 +263,20 @@ function getBoardsWherePinSaved(id) {
 
 export function getBoardsWherePinSavedRequest() {
   return {
-    type: pinConstants.GET_PIN_BOARDS_REQUEST
+    type: itemConstants.GET_ITEM_BOARDS_REQUEST
   };
 }
 
 export function getBoardsWherePinSavedSuccess(payload) {
   return {
-    type: pinConstants.GET_PIN_BOARDS_SUCCESS,
+    type: itemConstants.GET_ITEM_BOARDS_SUCCESS,
     payload
   };
 }
 
 export function getBoardsWherePinSavedFailure(error) {
   return {
-    type: pinConstants.GET_PIN_BOARDS_FAILURE,
+    type: itemConstants.GET_ITEM_BOARDS_FAILURE,
     payload: error
   };
 }
@@ -266,138 +297,136 @@ function getBoardsWherePinNotSaved(id) {
 
 export function getBoardsWherePinNotSavedRequest() {
   return {
-    type: pinConstants.GET_PIN_AVALIABE_BOARDS_REQUEST
+    type: itemConstants.GET_ITEM_AVALIABE_BOARDS_REQUEST
   };
 }
 
 export function getBoardsWherePinNotSavedSuccess(payload) {
   return {
-    type: pinConstants.GET_PIN_AVALIABE_BOARDS_SUCCESS,
+    type: itemConstants.GET_ITEM_AVALIABE_BOARDS_SUCCESS,
     payload
   };
 }
 
 export function getBoardsWherePinNotSavedFailure(error) {
   return {
-    type: pinConstants.GET_PIN_AVALIABE_BOARDS_FAILURE,
+    type: itemConstants.GET_ITEM_AVALIABE_BOARDS_FAILURE,
     payload: error
   };
 }
 
-function addPinToBoard(pinId, boardId) {
+function addItemToBoard(pinId, boardId) {
   return function(dispatch) {
     let pinParams = {
       pinId,
       boardId
     };
-    dispatch(addPinToBoardRequest(pinParams));
-    return pinService.addPinToBoard(pinId, boardId).then(
+    dispatch(addItemToBoardRequest(pinParams));
+    return pinService.addItemToBoard(pinId, boardId).then(
       response => {
-        dispatch(addPinToBoardSuccess(response));
+        dispatch(addItemToBoardSuccess(response));
       },
       error => {
-        dispatch(addPinToBoardFailure(error));
+        dispatch(addItemToBoardFailure(error));
       }
     );
   };
 }
 
-export function addPinToBoardRequest(tmp) {
+export function addItemToBoardRequest(tmp) {
   return {
-    type: pinConstants.ADD_PIN_TO_BOARD_REQUEST,
+    type: itemConstants.ADD_ITEM_TO_BOARD_REQUEST,
     payload: {
       tmp
     }
   };
 }
 
-export function addPinToBoardSuccess(payload) {
+export function addItemToBoardSuccess(payload) {
   return {
-    type: pinConstants.ADD_PIN_TO_BOARD_SUCCESS,
+    type: itemConstants.ADD_ITEM_TO_BOARD_SUCCESS,
     payload
   };
 }
 
-export function addPinToBoardFailure(error) {
+export function addItemToBoardFailure(error) {
   return {
-    type: pinConstants.ADD_PIN_TO_BOARD_FAILURE,
+    type: itemConstants.ADD_ITEM_TO_BOARD_FAILURE,
     payload: error
   };
 }
 
-function deletePinFromBoard(pinId, boardId) {
+function deleteItemFromBoard(pinId, boardId) {
   return function(dispatch) {
     let pinParams = {
       pinId,
       boardId
     };
-    dispatch(deletePinFromBoardRequest(pinParams));
-    return pinService.deletePinFromBoard(pinId, boardId).then(
+    dispatch(deleteItemFromBoardRequest(pinParams));
+    return pinService.deleteItemFromBoard(pinId, boardId).then(
       response => {
-        dispatch(deletePinFromBoardSuccess(response));
+        dispatch(deleteItemFromBoardSuccess(response));
       },
       error => {
-        dispatch(deletePinFromBoardFailure(error));
+        dispatch(deleteItemFromBoardFailure(error));
       }
     );
   };
 }
 
-export function deletePinFromBoardRequest(tmp) {
-
+export function deleteItemFromBoardRequest(tmp) {
   return {
-    type: pinConstants.DELETE_PIN_FROM_BOARD_REQUEST,
+    type: itemConstants.DELETE_ITEM_FROM_BOARD_REQUEST,
     payload: {
       tmp
     }
   };
 }
 
-export function deletePinFromBoardSuccess(payload) {
-
+export function deleteItemFromBoardSuccess(payload) {
   return {
-    type: pinConstants.DELETE_PIN_FROM_BOARD_SUCCESS,
+    type: itemConstants.DELETE_ITEM_FROM_BOARD_SUCCESS,
     payload
   };
 }
 
-export function deletePinFromBoardFailure(error) {
+export function deleteItemFromBoardFailure(error) {
   return {
-    type: pinConstants.DELETE_PIN_FROM_BOARD_FAILURE,
+    type: itemConstants.DELETE_ITEM_FROM_BOARD_FAILURE,
     payload: error
   };
 }
 
-function getMainPage() {
-  return function(dispatch) {
-    dispatch(getMainPageRequest());
-    return pinService.getMainPage().then(
-      response => {
-        dispatch(getMainPageSuccess(response));
-      },
-      error => {
-        dispatch(getMainPageFailure(error));
-      }
-    );
-  };
-}
+// function getItems() {
+//   return function(dispatch) {
+//     dispatch(getItemsRequest());
+//     return pinService.getItems().then(
+//       response => {
+//         dispatch(getItemsSuccess(response));
+//       },
+//       error => {
+//         dispatch(getItemsFailure(error));
+//       }
+//     );
+//   };
+// }
 
-export function getMainPageRequest() {
-  return {
-    type: pinConstants.GET_PIN_MAIN_PAGE_REQUEST
-  };
-}
+// export function getItemsRequest() {
+//   return {
+//     type: pinConstants.GET_ITEM_MAIN_PAGE_REQUEST
+//   };
+// }
 
-export function getMainPageSuccess(payload) {
-  return {
-    type: pinConstants.GET_PIN_MAIN_PAGE_SUCCESS,
-    payload
-  };
-}
+// export function getItemsSuccess(payload) {
+//   return {
+//     type: pinConstants.GET_ITEM_MAIN_PAGE_SUCCESS,
+//     payload
+//   };
+// }
 
-export function getMainPageFailure(error) {
-  return {
-    type: pinConstants.GET_PIN_MAIN_PAGE_FAILURE,
-    payload: error
-  };
-}
+// export function getItemsFailure(error) {
+//   return {
+//     type: pinConstants.GET_ITEM_MAIN_PAGE_FAILURE,
+//     payload: error
+//   };
+// }

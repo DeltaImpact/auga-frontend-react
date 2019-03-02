@@ -31,9 +31,9 @@ class NavMenu extends Component {
                   className="left brand-logo nav__logo black-text "
                 >
                   <i className="black-text material-icons hide-on-med-and-down">
-                    broken_image
+                    brightness_auto
                   </i>
-                  Linkpinss
+                  Auga
                 </Link>
                 <NavMenuRight />
               </div>

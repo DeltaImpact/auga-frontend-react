@@ -1,4 +1,3 @@
-let user = JSON.parse(localStorage.getItem("user"));
 import { createReducer } from "../utils/misc";
 import {
   LOGIN_USER_SUCCESS,
@@ -16,7 +15,8 @@ import {
   PROFILE_PASSWORD_CHANGE_FAILURE,
   PROFILE_CHANGE_REQUEST,
   PROFILE_CHANGE_SUCCESS,
-  PROFILE_CHANGE_FAILURE
+  PROFILE_CHANGE_FAILURE,
+  GET_SAVED_AUTH
 } from "../constants/user.constants";
 
 const reducerInitialState = {
@@ -24,14 +24,12 @@ const reducerInitialState = {
   registerLoading: null,
   loginError: null,
   registerError: null,
-
-  user: user,
+  user: null,
   isAuthenticated: false,
   // statusText: null,
   // loading: null,
   // items: null,
   // error: null
-
   profileGetObject: null,
   profileGetLoading: null,
   profileGetError: null,
@@ -52,6 +50,14 @@ function clean(obj) {
 }
 
 export default createReducer(reducerInitialState, {
+  GET_SAVED_AUTH: state => {
+    let savedUser = JSON.parse(localStorage.getItem("user"));
+    // debugger;
+    return Object.assign({}, state, {
+      isAuthenticated: savedUser ? true : false,
+      user: savedUser
+    });
+  },
   LOGIN_USER_REQUEST: state =>
     Object.assign({}, state, {
       isAuthenticated: false,
@@ -137,7 +143,7 @@ export default createReducer(reducerInitialState, {
       // user: Object.assign(user, clean(payload))
       user: Object.assign(user, {
         username: payload.userName,
-        email: payload.email,
+        email: payload.email
         // role: payload.role,
       })
     }),
