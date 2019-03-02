@@ -14,6 +14,11 @@ const onNotifReceived = res => {
   console.log("****** NOTIFICATION ******", res);
 };
 
+const onGameStarted = res => {
+  console.log("****** GameStarted ******", res);
+  alert("GameStarted", onNotifReceived);
+};
+
 const startSignalRConnection = connection => {
   return connection.start();
   // .then(() => console.info("SignalR Connected"))
@@ -53,6 +58,7 @@ const signalRMiddleware = ({ getState }) => next => async action => {
     connection.on("DownloadProgress", onNotifReceived);
     connection.on("userJoined", onNotifReceived);
     connection.on("userExited", onNotifReceived);
+    connection.on("gameStarted", onGameStarted);
     // connection.on("moves", onNotifReceived);
 
     // re-establish the connection if connection dropped
